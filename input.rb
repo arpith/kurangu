@@ -1,12 +1,9 @@
 class Test
-  def test
-    puts "in test"
-    a = 1
-    b = 2
+  def plus(a, b)
+    return a + b
   end
 end
 
-puts "in input"
-
 t = Test.new
-t.test
+t.plus(1, 2)
+t.plus('1', '3')
