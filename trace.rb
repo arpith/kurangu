@@ -12,7 +12,8 @@ def generate_signature(parameters, parameter_types, return_types)
 end
 
 def write_annotations(signatures)
-  lines = signatures.to_a.map{ | name, signature | "#{name} #{signature}" }
+  lines = ["require 'rdl'"]
+  lines.concat signatures.to_a.map{ | name, signature | "#{name}, '#{signature}'" }
   IO.write('annotations.rb', lines.join("\n"))
 end
 
