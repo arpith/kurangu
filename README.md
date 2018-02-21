@@ -1,5 +1,8 @@
 # kurangu
 Runtime type collection for Ruby
 
+## Installation
+`gem install kurangu`
+
 ## Usage
-`ruby kurangu.rb input.rb` where `input.rb` is the file you want annotations for 😊
+`kurangu input.rb` where `input.rb` is the file you want annotations for 😊
