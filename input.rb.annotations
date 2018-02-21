@@ -1,0 +1,2 @@
+2 type '(Fixnum or String, Fixnum or String) -> Fixnum or String'
+6 type '(Fixnum or String, Fixnum or String) -> Fixnum or String or Fixnum or String'

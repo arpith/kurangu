@@ -1,0 +1,1 @@
+/Users/arpith/work/src/github.com/arpith/kurangu/input.rb.annotations
