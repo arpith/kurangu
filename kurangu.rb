@@ -43,9 +43,10 @@ File.open("annotations_paths.txt", "r") do |f|
     lines << "\n"
     File.open(original_path, "r") do |f|
       f.each_line.with_index do |line, index|
+        whitespace = line.chomp(line.lstrip)
         if annotations.key?(index + 1)
-          lines << "extend RDL::Annotate\n"
-          lines << annotations[index + 1]
+          lines << "#{whitespace}extend RDL::Annotate\n"
+          lines << "#{whitespace}#{annotations[index + 1]}"
         end
         lines << line
       end

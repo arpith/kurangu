@@ -2,15 +2,15 @@ require 'rdl'
 require 'types/core'
 
 class Test
-extend RDL::Annotate
-type '(Fixnum or String, Fixnum or String) -> Fixnum or String'
+  extend RDL::Annotate
+  type '(Fixnum or String, Fixnum or String) -> Fixnum or String'
 
   def plus(a, b)
     return a + b
   end
 
-extend RDL::Annotate
-type '(Fixnum or String, Fixnum or String) -> Fixnum or String or Fixnum or String'
+  extend RDL::Annotate
+  type '(Fixnum or String, Fixnum or String) -> Fixnum or String or Fixnum or String'
   def first(a, b)
     return a
   end
