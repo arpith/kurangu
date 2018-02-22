@@ -13,8 +13,9 @@ def generate_signature(line, parameters, parameter_types, return_types)
   "#{line} type '(#{joined_parameters.join(", ")}) -> #{return_types.join(" or ")}'"
 end
 
-def write_annotations_paths(paths)
-  IO.write("annotations_paths.txt", paths.to_a.join("\n"))
+def write_annotations_paths(dir, paths)
+  paths_file = "#{dir}/annotations_paths.txt"
+  IO.write(paths_file, paths.to_a.join("\n"))
 end
 
 def write_annotations(path, signatures)
@@ -33,7 +34,8 @@ trace_return = TracePoint.new(:return) do |t|
     line = t.self.method(t.method_id).source_location[1]
     signatures[s] = generate_signature(line, parameter_list[s], parameter_types[s], return_types[s])
     path = "#{t.path}.annotations"
-    write_annotations_paths(paths.add(path))
+    dir = File.dirname(t.path)
+    write_annotations_paths(dir, paths.add(path))
     write_annotations(path, signatures)
   end
 end

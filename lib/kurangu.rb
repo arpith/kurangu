@@ -9,9 +9,9 @@ class Kurangu
     system(ruby, "-r", trace_file, input_file)
   end
 
-  def print_annotations
+  def print_annotations(paths_file)
     puts "\nthe annotations generated are:\n"
-    File.open("annotations_paths.txt", "r") do |f|
+    File.open(paths_file, "r") do |f|
       f.each_line do |annotation_file|
         puts annotation_file
         File.open(annotation_file, "r") do |f|
@@ -25,8 +25,8 @@ class Kurangu
     end
   end
 
-  def generate_annotated_files
-    File.open("annotations_paths.txt", "r") do |f|
+  def generate_annotated_files(paths_file)
+    File.open(paths_file, "r") do |f|
       f.each_line do |annotation_path|
         original_path = annotation_path.chomp('.annotations')
         annotated_path = "#{original_path}.annotated"
@@ -61,8 +61,8 @@ class Kurangu
     FileUtils.mv(annotated_path, original_path)
   end
 
-  def apply_annotations
-    File.open("annotations_paths.txt", "r") do |f|
+  def apply_annotations(paths_file)
+    File.open(paths_file, "r") do |f|
       f.each_line do |annotation_path|
         original_path = annotation_path.chomp('.annotations')
         annotated_path = "#{original_path}.annotated"
@@ -79,10 +79,11 @@ class Kurangu
 
   def run(input_file_path)
     input_file = File.expand_path(input_file_path)
+    paths_file = "#{File.dirname(input_file)}/annotations_paths.txt"
     self.generate_annotations(input_file)
-    self.print_annotations
-    self.generate_annotated_files
-    self.apply_annotations
+    self.print_annotations(paths_file)
+    self.generate_annotated_files(paths_file)
+    self.apply_annotations(paths_file)
     self.run_rdl(input_file)
   end
 end
