@@ -1,0 +1,1 @@
+1 type '(TrueClass or FalseClass or NilClass or String or Fixnum) -> String or Fixnum or Fixnum or String or String'
