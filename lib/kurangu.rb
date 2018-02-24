@@ -1,12 +1,15 @@
 require 'rbconfig'
 require 'fileutils'
+require 'open3'
 
 class Kurangu
   def generate_annotations(input_file)
     ruby = File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     trace_file = File.expand_path("lib/trace.rb")
     puts "\ngenerating annotations\n"
-    system(ruby, "-r", trace_file, input_file)
+    Open3.popen2("#{ruby} -r #{trace_file} #{input_file}") {|stdin, stdout, wait_thr|
+      stdin.puts(input_file)
+    }
   end
 
   def print_annotations(paths_file)
@@ -31,7 +34,6 @@ class Kurangu
         original_path = annotation_path.chomp('.annotations')
         annotated_path = "#{original_path}.annotated"
         puts "\ngenerating annotated file #{annotated_path}\n"
-        lines = ["require 'rdl'\n", "require 'types/core'\n"]
         annotations = Hash.new
         File.open(annotation_path, "r") do |f|
           f.each_line do |line|
@@ -40,16 +42,26 @@ class Kurangu
             annotations[index] = "#{split[1]}\n"
           end
         end
-        lines << "\n"
+        lines = []
+        has_types = false
         File.open(original_path, "r") do |f|
           f.each_line.with_index do |line, index|
             whitespace = line.chomp(line.lstrip)
             if annotations.key?(index + 1)
-              lines << "#{whitespace}extend RDL::Annotate\n"
-              lines << "#{whitespace}#{annotations[index + 1]}"
+              if lines.last and lines.last.start_with?('type')
+                has_types = true
+                lines.last = "#{whitespace}#{annotations[index + 1]}"
+              else
+                lines << "#{whitespace}extend RDL::Annotate\n"
+                lines << "#{whitespace}#{annotations[index + 1]}"
+              end
             end
             lines << line
           end
+        end
+        if !has_types
+          lines.unshift "require 'types/core'\n\n"
+          lines.unshift "require 'rdl'\n"
         end
         IO.write(annotated_path, lines.join())
       end
