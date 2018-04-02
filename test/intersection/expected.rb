@@ -1,7 +1,11 @@
 require 'rdl'
 include RDL::Annotate
 
-type '(TrueClass or FalseClass or NilClass or String or Integer) -> String or Integer'
+type '(TrueClass) -> String'
+type '(FalseClass) -> Integer'
+type '(NilClass) -> Integer'
+type '(String) -> String'
+type '(Integer) -> String'
 def the_answer(x)
   if x
     return 'forty-two'
