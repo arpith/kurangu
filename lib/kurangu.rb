@@ -18,11 +18,8 @@ class Kurangu
       f.each_line do |annotation_file|
         puts annotation_file
         File.open(annotation_file, "r") do |f|
-          f.each_line.with_index do |line, index|
-            if index > 2
-              puts line
-            end
-          end
+          contents = f.read
+          puts contents
         end
       end
     end
