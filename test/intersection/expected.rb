@@ -2,10 +2,10 @@ require 'rdl'
 include RDL::Annotate
 
 type '(TrueClass) -> String'
-type '(FalseClass) -> Integer'
-type '(NilClass) -> Integer'
+type '(FalseClass) -> Fixnum'
+type '(NilClass) -> Fixnum'
 type '(String) -> String'
-type '(Integer) -> String'
+type '(Fixnum) -> String'
 def the_answer(x)
   if x
     return 'forty-two'
