@@ -1,8 +1,3 @@
-require 'rdl'
-require 'types/core'
-
-extend RDL::Annotate
-type '(TrueClass or FalseClass or NilClass or String or Fixnum) -> String or Fixnum'
 def the_answer(x)
   if x
     return 'forty-two'
