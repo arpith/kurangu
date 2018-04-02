@@ -31,12 +31,12 @@ class Kurangu
         original_path = annotation_path.chomp('.annotations')
         annotated_path = "#{original_path}.annotated"
         puts "\ngenerating annotated file #{annotated_path}\n"
-        annotations = Hash.new
+        annotations = Hash.new { |h, k| h[k] = [] }
         File.open(annotation_path, "r") do |f|
           f.each_line do |line|
             split = line.split(" ", 2)
             index = split[0].to_i
-            annotations[index] = "#{split[1]}\n"
+            annotations[index].push split[1]
           end
         end
         lines = []
@@ -44,14 +44,20 @@ class Kurangu
         File.open(original_path, "r") do |f|
           f.each_line.with_index do |line, index|
             whitespace = line.chomp(line.lstrip)
-            if annotations.key?(index + 1)
+            if annotations[index + 1].size > 0
               if lines.last and lines.last.start_with?('type')
                 has_types = true
-                lines.last = "#{whitespace}#{annotations[index + 1]}"
+                lines.last = "#{whitespace}#{annotations[index + 1][0]}"
+                annotations[index + 1].drop(1).each do |annotation|
+                  lines << "#{whitespace}#{annotation}"
+                end
               else
                 lines << "#{whitespace}extend RDL::Annotate\n"
-                lines << "#{whitespace}#{annotations[index + 1]}"
+                annotations[index + 1].each do |annotation|
+                  lines << "#{whitespace}#{annotation}"
+                end
               end
+              lines << "\n"
             end
             lines << line
           end

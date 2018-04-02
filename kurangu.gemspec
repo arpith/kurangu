@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "kurangu"
-  s.version     = "0.0.3"
+  s.version     = "0.0.4"
   s.executables << "kurangu"
   s.date        = "2018-02-21"
   s.summary     = "Generate type annotations"
