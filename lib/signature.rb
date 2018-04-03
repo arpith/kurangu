@@ -7,8 +7,14 @@ class MethodSignature
   end
  
   def generate_parameter_signature(parameter_types)
-    joined_parameters = @parameters.map { |arg| parameter_types[arg] }
-    joined_parameters.join(", ")
+    signatures = @parameters.map do |parameter|
+      prefix = ""
+      if parameter[0] == :opt
+        prefix = "?"
+      end
+      "#{prefix}#{parameter_types[parameter[1]]}"
+    end
+    signatures.join(", ")
   end
 
   def to_s

@@ -1,0 +1,2 @@
+1 type '(?Fixnum) -> String'
+1 type '(?NilClass) -> String'
