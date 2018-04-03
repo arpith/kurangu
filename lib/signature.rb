@@ -12,7 +12,7 @@ class MethodSignature
       if parameter[0] == :opt
         prefix = "?"
       end
-      "#{prefix}#{parameter_types[parameter[1]]}"
+      "#{prefix}#{parameter_types[parameter[1]]} #{parameter[1]}"
     end
     signatures.join(", ")
   end

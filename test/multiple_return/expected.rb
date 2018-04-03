@@ -1,7 +1,7 @@
 require 'rdl'
 include RDL::Annotate
 
-type '(Integer) -> String or Integer'
+type '(Integer x) -> String or Integer'
 def the_answer(x)
   if x == 42
     return 'forty-two'

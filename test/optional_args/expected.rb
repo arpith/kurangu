@@ -1,8 +1,8 @@
 require 'rdl'
 include RDL::Annotate
 
-type '(?Fixnum) -> String'
-type '(?NilClass) -> String'
+type '(?Fixnum v) -> String'
+type '(?NilClass v) -> String'
 def the_answer(v = nil)
   return 'forty-two'
 end
