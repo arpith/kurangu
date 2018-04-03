@@ -18,14 +18,17 @@ class MethodSignature
   end
 
   def to_s
-    signatures = @signatures.to_a.map { |a| 
-      "#{@line} type '(#{a[0]}) -> #{a[1].to_a.join(" or ")}'" 
+    signatures = @signatures.to_a.map { |a|
+      "#{@line} type '(#{a[0]}) -> #{a[1].to_a.join(" or ")}'"
     }
     signatures.join("\n")
   end
 
-  def add(parameter_types, return_type)
+  def add(parameter_types, return_type, owner)
     parameter_signature = generate_parameter_signature(parameter_types)
+    if return_type.to_s == owner.class.name
+      return_type = "self"
+    end
     @signatures[parameter_signature].add(return_type)
   end
 

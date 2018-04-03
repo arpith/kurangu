@@ -23,9 +23,10 @@ trace_return = TracePoint.new(:return) do |t|
     if args
       line = t.self.method(t.method_id).source_location[1]
       if !signatures.key?(s)
-        signatures[s] = MethodSignature.new(line, t.self.method(t.method_id).parameters)
+        parameters = t.self.method(t.method_id).parameters
+        signatures[s] = MethodSignature.new(line, parameters)
       end
-      signatures[s].add(args, t.return_value.class)
+      signatures[s].add(args, t.return_value.class, t.self)
       path = "#{t.path}.annotations"
       dir = File.dirname(t.path)
       write_annotations_paths(dir, paths.add(path))
