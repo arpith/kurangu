@@ -29,7 +29,7 @@ class MethodSignature
 
   def add(parameter_types, return_type, owner)
     parameter_signature = generate_parameter_signature(parameter_types)
-    if return_type.to_s == owner.class.name
+    if return_type.to_s == owner.class.name or @method_id == :initialize
       return_type = "self"
     end
     @signatures[parameter_signature].add(return_type)
