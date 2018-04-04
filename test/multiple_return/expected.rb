@@ -1,7 +1,8 @@
 require 'rdl'
-include RDL::Annotate
+require 'types/core'
 
-type '(Integer x) -> String or Integer'
+extend RDL::Annotate
+type Object, :the_answer, '(Fixnum x) -> String or Fixnum'
 def the_answer(x)
   if x == 42
     return 'forty-two'

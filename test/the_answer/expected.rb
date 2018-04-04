@@ -1,7 +1,8 @@
 require 'rdl'
-include RDL::Annotate
+require 'types/core'
 
-type '() -> String'
+extend RDL::Annotate
+type Object, :the_answer, '() -> String'
 def the_answer()
   return 'forty-two'
 end

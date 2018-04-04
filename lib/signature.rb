@@ -1,6 +1,8 @@
 class MethodSignature
-  def initialize(line, parameters)
+  def initialize(line, class_name, method_id, parameters)
     @line = line
+    @class_name = class_name
+    @method_id = method_id
     @parameters = parameters
     # For each parameter signature (key), store a set of return types (value)
     @signatures = Hash.new { | h, k | h[k] = Set.new }
@@ -19,7 +21,8 @@ class MethodSignature
 
   def to_s
     signatures = @signatures.to_a.map { |a|
-      "#{@line} type '(#{a[0]}) -> #{a[1].to_a.join(" or ")}'"
+      prefix = "#{@class_name}, :#{@method_id}"
+      "#{@line} type #{prefix}, '(#{a[0]}) -> #{a[1].to_a.join(" or ")}'"
     }
     signatures.join("\n")
   end

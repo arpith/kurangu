@@ -24,7 +24,7 @@ trace_return = TracePoint.new(:return) do |t|
       line = t.self.method(t.method_id).source_location[1]
       if !signatures.key?(s)
         parameters = t.self.method(t.method_id).parameters
-        signatures[s] = MethodSignature.new(line, parameters)
+        signatures[s] = MethodSignature.new(line, t.defined_class, t.method_id, parameters)
       end
       signatures[s].add(args, t.return_value.class, t.self)
       path = "#{t.path}.annotations"

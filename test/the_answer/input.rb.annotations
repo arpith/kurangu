@@ -1,1 +1,1 @@
-1 type '() -> String'
+1 type Object, :the_answer, '() -> String'

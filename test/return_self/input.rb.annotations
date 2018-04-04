@@ -1,1 +1,1 @@
-2 type '() -> self'
+2 type A, :id, '() -> self'

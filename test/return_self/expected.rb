@@ -1,8 +1,9 @@
 require 'rdl'
-include RDL::Annotate
+require 'types/core'
 
 class A
-  type '() -> self'
+  extend RDL::Annotate
+  type A, :id, '() -> self'
   def id
     self
   end

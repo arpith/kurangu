@@ -1,11 +1,12 @@
 require 'rdl'
-include RDL::Annotate
+require 'types/core'
 
-type '(TrueClass x) -> String'
-type '(FalseClass x) -> Fixnum'
-type '(NilClass x) -> Fixnum'
-type '(String x) -> String'
-type '(Fixnum x) -> String'
+extend RDL::Annotate
+type Object, :the_answer, '(TrueClass x) -> String'
+type Object, :the_answer, '(FalseClass x) -> Fixnum'
+type Object, :the_answer, '(NilClass x) -> Fixnum'
+type Object, :the_answer, '(String x) -> String'
+type Object, :the_answer, '(Fixnum x) -> String'
 def the_answer(x)
   if x
     return 'forty-two'

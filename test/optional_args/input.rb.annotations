@@ -1,2 +1,2 @@
-1 type '(?Fixnum v) -> String'
-1 type '(?NilClass v) -> String'
+1 type Object, :the_answer, '(?Fixnum v) -> String'
+1 type Object, :the_answer, '(?NilClass v) -> String'

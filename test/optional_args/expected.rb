@@ -1,8 +1,9 @@
 require 'rdl'
-include RDL::Annotate
+require 'types/core'
 
-type '(?Fixnum v) -> String'
-type '(?NilClass v) -> String'
+extend RDL::Annotate
+type Object, :the_answer, '(?Fixnum v) -> String'
+type Object, :the_answer, '(?NilClass v) -> String'
 def the_answer(v = nil)
   return 'forty-two'
 end
