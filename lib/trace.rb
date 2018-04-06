@@ -16,17 +16,28 @@ def write_annotations(path, signatures)
   IO.write(path, signatures.values.join("\n"))
 end
 
-trace_return = TracePoint.new(:return) do |t|
+def is_block(t)
+  t.event == :b_return or t.event == :b_call
+end
+
+def tracepoint_line(t)
+  if is_block(t)
+    t.lineno
+  else
+    t.self.method(t.method_id).source_location[1]
+  end
+end
+
+trace_return = TracePoint.new(:return, :b_return) do |t|
   if File.dirname(t.path) == File.dirname(INPUT_FILE)
-    s = "#{t.defined_class}, :#{t.method_id}"
+    s = "#{t.path} #{tracepoint_line(t)}"
     args = stack[s].pop
     if args
-      line = t.self.method(t.method_id).source_location[1]
       if !signatures.key?(s)
         parameters = t.self.method(t.method_id).parameters
-        signatures[s] = MethodSignature.new(line, t.defined_class, t.method_id, parameters)
+        signatures[s] = MethodSignature.new(tracepoint_line(t), t.defined_class, t.method_id, is_block(t), parameters, signatures)
       end
-      signatures[s].add(args, t.return_value.class, t.self)
+      signatures[s].add(args, t.return_value, t.self)
       path = "#{t.path}.annotations"
       dir = File.dirname(t.path)
       write_annotations_paths(dir, paths.add(path))
@@ -35,12 +46,12 @@ trace_return = TracePoint.new(:return) do |t|
   end
 end
 
-trace_call = TracePoint.new(:call) do |t|
+trace_call = TracePoint.new(:call, :b_call) do |t|
   if File.dirname(t.path) == File.dirname(INPUT_FILE)
-    s = "#{t.defined_class}, :#{t.method_id}"
+    s = "#{t.path} #{tracepoint_line(t)}"
     args = t.binding.eval("local_variables").inject({}) do |vars, name|
       value = t.binding.eval name.to_s
-      vars[name] = value.class
+      vars[name] = value
       vars
     end
     stack[s] << args

@@ -9,6 +9,7 @@ class Kurangu
     puts "\ngenerating annotations\n"
     Open3.popen2("#{ruby} -r #{trace_file} #{input_file}") {|stdin, stdout, wait_thr|
       stdin.puts(input_file)
+      puts stdout.read
     }
   end
 

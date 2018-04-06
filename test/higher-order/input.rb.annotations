@@ -1,0 +1,4 @@
+1 type Object, :return_value, '(Fixnum x) -> {(?Fixnum y) -> Fixnum}'
+5 type Object, :argument, '(Fixnum x, {(?Fixnum y) -> Fixnum} y) -> Fixnum'
+9 type Object, :method_block, '(Fixnum x) {(?Fixnum y) -> Fixnum} -> Fixnum'
+2 type '(?Fixnum y) -> Fixnum'
