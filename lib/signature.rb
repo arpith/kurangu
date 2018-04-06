@@ -54,7 +54,7 @@ class MethodSignature
       "#{prefix}#{type} #{name}"
     end
     method_block_signature = ""
-    if @parameters[-1][0] == :block
+    if @parameters.size > 0 and @parameters[-1][0] == :block
       expanded = expand_block(parameter_values[@parameters[-1][1]])
       if expanded
         signatures.pop
